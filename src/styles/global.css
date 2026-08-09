@@ -1,0 +1,222 @@
+/* ============================================================
+   SODIUM VAPOUR — design tokens (DESIGN.md is the source of truth)
+   The 3am control room, made beautiful. Dark-only by design.
+   ============================================================ */
+
+:root {
+  /* colour */
+  --bg: #131110;          /* warm near-black — asphalt at night */
+  --surface: #1e1a16;     /* dust on dark steel */
+  --hairline: #37302a;    /* 1px schematic rules */
+  --text: #ede4d6;        /* bone / paper */
+  --text-bright: #ffffff; /* hero headline only */
+  --muted: #94897a;       /* spinifex-dry grey — ≥1rem only */
+  --amber: #ffb000;       /* sodium vapour. text, strokes, interactive */
+  --amber-fill: #f5c65e;  /* large CTA fills only, with --bg text */
+  --ok: #3fc478;          /* HMI running — sparing, honest */
+  --alarm: #c1413f;       /* alarm timelines + form errors only */
+
+  /* type */
+  --font-display: 'Archivo Variable', 'Archivo', 'Arial Narrow', sans-serif;
+  --font-body: 'Source Sans 3', 'Source Sans Pro', Georgia, sans-serif;
+  --font-mono: 'IBM Plex Mono', 'Consolas', monospace;
+
+  --size-hero: clamp(2.5rem, 7vw, 5.5rem);
+  --size-h2: 2rem;
+  --size-h3: 1.375rem;
+  --size-body: 1.0625rem;
+  --size-small: 0.875rem;
+  --size-label: 0.8125rem;
+
+  /* space — 8px base */
+  --s-2xs: 2px; --s-xs: 4px; --s-sm: 8px; --s-md: 16px;
+  --s-lg: 24px; --s-xl: 32px; --s-2xl: 48px; --s-3xl: 64px; --s-4xl: 96px;
+
+  /* motion */
+  --ease-enter: cubic-bezier(0.16, 1, 0.3, 1);
+  --t-micro: 120ms; --t-short: 280ms; --t-med: 400ms; --t-draw: 600ms;
+
+  --max-w: 1280px;
+}
+
+/* ---------- reset ---------- */
+*, *::before, *::after { box-sizing: border-box; margin: 0; }
+
+html {
+  background: var(--bg);
+  color-scheme: dark;
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-body);
+  font-size: var(--size-body);
+  line-height: 1.6;
+  color: var(--text);
+  background:
+    /* faint grain via layered radial dots — no external assets */
+    radial-gradient(circle at 25% 15%, rgba(255, 176, 0, 0.015), transparent 40%),
+    var(--bg);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ---------- typography ---------- */
+h1, h2, h3 {
+  font-family: var(--font-display);
+  font-stretch: 125%;
+  font-weight: 750;
+  line-height: 1.05;
+  text-transform: uppercase;
+  letter-spacing: 0.01em;
+  color: var(--text);
+  text-wrap: balance;
+}
+
+h1 { font-size: var(--size-hero); color: var(--text-bright); }
+h2 { font-size: var(--size-h2); }
+h3 { font-size: var(--size-h3); }
+
+p { max-width: 68ch; }
+
+a { color: var(--amber); text-decoration-thickness: 1px; text-underline-offset: 3px; }
+a:visited { color: #d29b2a; } /* visited stays warm, distinguishably darker */
+a:hover { color: var(--text-bright); }
+
+strong { color: var(--text-bright); font-weight: 600; }
+
+.mono, code, kbd {
+  font-family: var(--font-mono);
+  font-size: var(--size-label);
+  letter-spacing: 0.02em;
+}
+
+.kicker {
+  font-family: var(--font-mono);
+  font-size: var(--size-label);
+  color: var(--amber);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  display: block;
+  margin-bottom: var(--s-sm);
+}
+
+.muted { color: var(--muted); font-size: max(1rem, var(--size-body)); }
+
+/* ---------- layout primitives ---------- */
+.wrap { max-width: var(--max-w); margin-inline: auto; padding-inline: var(--s-lg); }
+
+.panel {
+  border-top: 1px solid var(--hairline);
+  padding-block: var(--s-3xl);
+}
+
+/* everything left-aligned; corners square, like equipment */
+button, input, textarea, select { border-radius: 0; font: inherit; }
+
+/* ---------- focus & interaction ---------- */
+:focus-visible {
+  outline: 2px solid var(--amber);
+  outline-offset: 2px;
+}
+
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  background: var(--amber);
+  color: var(--bg);
+  padding: var(--s-sm) var(--s-md);
+  font-family: var(--font-mono);
+  z-index: 100;
+}
+.skip-link:focus { left: 0; }
+
+/* buttons — square, mechanical. hover = colour, never scale */
+.btn {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: var(--size-small);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  text-decoration: none;
+  padding: 14px 28px;   /* ≥44px target */
+  min-height: 44px;
+  border: 1px solid var(--amber);
+  color: var(--amber);
+  background: transparent;
+  cursor: pointer;
+  transition: color var(--t-micro), background var(--t-micro), border-color var(--t-micro);
+}
+.btn:hover, .btn:focus-visible { color: var(--bg); background: var(--amber); }
+.btn:visited { color: var(--amber); }
+.btn--solid { background: var(--amber-fill); border-color: var(--amber-fill); color: var(--bg); font-weight: 500; }
+.btn--solid:hover, .btn--solid:focus-visible { background: var(--amber); border-color: var(--amber); color: var(--bg); }
+.btn--solid:visited { color: var(--bg); }
+
+/* ---------- tables (alarm logs, commissioning record) ---------- */
+table.hmi {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--font-mono);
+  font-size: var(--size-label);
+}
+table.hmi caption {
+  text-align: left;
+  font-family: var(--font-mono);
+  font-size: var(--size-label);
+  color: var(--amber);
+  padding-bottom: var(--s-sm);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+table.hmi th, table.hmi td {
+  text-align: left;
+  padding: var(--s-sm) var(--s-md) var(--s-sm) 0;
+  border-bottom: 1px solid var(--hairline);
+  vertical-align: top;
+}
+table.hmi th { color: var(--muted); font-weight: 400; font-size: 1rem; text-transform: uppercase; letter-spacing: 0.06em; }
+.state-ok { color: var(--ok); }
+.state-alarm { color: var(--alarm); }
+.state-ack { color: var(--amber); }
+
+/* stacked record blocks on small screens */
+@media (max-width: 640px) {
+  table.hmi.stack thead { position: absolute; left: -9999px; }
+  table.hmi.stack tr {
+    display: block;
+    border-bottom: 1px solid var(--hairline);
+    padding-block: var(--s-sm);
+  }
+  table.hmi.stack td { display: block; border: 0; padding: var(--s-2xs) 0; }
+  table.hmi.stack td[data-th]::before {
+    content: attr(data-th) '  ';
+    color: var(--muted);
+    font-size: 1rem;
+  }
+}
+
+/* ---------- motion ----------
+   Structural rule (PLAN.md): content is visible by default; animation only
+   enhances. The reveal therefore animates FROM offset TO rest — it never
+   hides content, so frozen animations / no-JS / reader modes all see text. */
+@media (prefers-reduced-motion: no-preference) {
+  .reveal { animation: reveal var(--t-short) var(--ease-enter) backwards; }
+  .reveal-2 { animation-delay: 100ms; }
+  .reveal-3 { animation-delay: 200ms; }
+  @keyframes reveal {
+    from { transform: translateY(10px); }
+    to { transform: none; }
+  }
+}
+
+/* ---------- print (procurement prints) ---------- */
+@media print {
+  :root { --bg: #ffffff; --surface: #ffffff; --text: #111111; --text-bright: #000000; --muted: #444444; --amber: #7a5200; --hairline: #999999; }
+  body { background: #fff; color: #111; }
+  h1, h2, h3, strong { color: #000; }
+  nav, .no-print, .skip-link { display: none !important; }
+  a { color: #000; }
+  a[href^="http"]::after { content: ' (' attr(href) ')'; font-size: 0.8em; }
+  .btn { border-color: #000; color: #000; }
+}

@@ -1,0 +1,253 @@
+---
+import '@fontsource-variable/archivo/wdth.css';
+import '@fontsource/source-sans-3/400.css';
+import '@fontsource/source-sans-3/600.css';
+import '@fontsource/ibm-plex-mono/400.css';
+import '@fontsource/ibm-plex-mono/500.css';
+import '../styles/global.css';
+import { BUSINESS, NAV, SITE_MODE, withBase, absUrl } from '../lib/site';
+
+interface Props {
+  title: string;
+  description: string;
+  path: string;          // canonical path, e.g. '/services/'
+  noindex?: boolean;     // page-level (contact/sent); preview mode forces it anyway
+}
+
+const { title, description, path, noindex = false } = Astro.props;
+const canonical = absUrl(path, Astro.site);
+const ogImage = absUrl('/og.png', Astro.site);
+const robots = SITE_MODE === 'preview' || noindex ? 'noindex, nofollow, noarchive' : 'index, follow';
+
+// No telephone/email in structured data — public contact is the form only
+// (owner decision 2026-08-09: direct details attract spam).
+const jsonLd = JSON.stringify({
+  '@context': 'https://schema.org',
+  '@type': 'ProfessionalService',
+  name: BUSINESS.name,
+  parentOrganization: { '@type': 'Organization', name: 'Qualitiv Pty Ltd' },
+  description:
+    'Industrial automation consultancy: SCADA, PLC and control systems engineering across water, agriculture, rail and manufacturing.',
+  url: absUrl('/', Astro.site),
+  address: { '@type': 'PostalAddress', addressLocality: 'Brisbane', addressRegion: 'QLD', addressCountry: 'AU' },
+  areaServed: 'Australia',
+  knowsAbout: ['SCADA', 'PLC programming', 'Ignition SCADA', 'ClearSCADA', 'Citect', 'industrial automation', 'RTU telemetry', 'MES'],
+});
+
+const isCurrent = (href: string) =>
+  href === '/' ? path === '/' : path.startsWith(href);
+---
+
+<!doctype html>
+<html lang="en-AU">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; connect-src 'self' https://formsubmit.co; form-action https://formsubmit.co; img-src 'self' data:; base-uri 'self'"
+    />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="robots" content={robots} />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" type="image/svg+xml" href={withBase('/favicon.svg')} />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={BUSINESS.name} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <script type="application/ld+json" set:html={jsonLd} />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+
+    <header class="site-header">
+      <div class="wrap header-row">
+        <a class="brand" href={withBase('/')} aria-label={`${BUSINESS.name} — home`}>
+          <!-- the mouse: appears exactly once. line-drawn, amber. -->
+          <svg
+            class="mouse-mark"
+            width="42"
+            height="26"
+            viewBox="0 0 42 26"
+            fill="none"
+            stroke="var(--amber)"
+            stroke-width="1.4"
+            aria-hidden="true"
+          >
+            <!-- hopping mouse mid-leap: body arc, big hind leg, long balancing tail -->
+            <path d="M2 22 Q10 24 14 19" /><!-- tail -->
+            <path d="M14 19 Q15 10 23 8 Q30 6 33 11 Q35 14 33 16 Q28 20 21 20 Q17 20 14 19 Z" /><!-- body -->
+            <path d="M33 11 Q36 9 37 6 Q38 9 36 11" /><!-- ear -->
+            <circle class="mouse-eye" cx="33.6" cy="12.6" r="0.9" fill="var(--amber)" stroke="none" />
+            <path d="M21 20 Q20 24 16 25" /><!-- hind leg -->
+            <path d="M28 19 Q28 22 26 23" /><!-- front paw -->
+          </svg>
+          <span class="brand-text">
+            <span class="brand-name">HOPPING MOUSE</span>
+            <span class="brand-sub mono">AUTOMATION</span>
+          </span>
+        </a>
+
+        <input type="checkbox" id="nav-toggle" class="nav-toggle-box" aria-hidden="true" />
+        <label class="nav-toggle mono" for="nav-toggle">
+          <span class="when-closed">[MENU]</span>
+          <span class="when-open">[CLOSE]</span>
+        </label>
+
+        <nav aria-label="Main">
+          <ul class="nav-list">
+            {
+              NAV.map((item) => (
+                <li>
+                  <a
+                    class="nav-link mono"
+                    href={withBase(item.href)}
+                    aria-current={isCurrent(item.href) ? 'page' : undefined}
+                  >
+                    <span class="nav-n">{item.n}_</span>{item.label}
+                  </a>
+                </li>
+              ))
+            }
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <main id="main">
+      <slot />
+    </main>
+
+    <footer class="site-footer">
+      <div class="wrap footer-grid mono">
+        <div>
+          <p class="footer-line">{BUSINESS.legal}</p>
+          <p class="footer-line">Based in {BUSINESS.location}. Supporting plants {BUSINESS.serviceArea.toLowerCase()}.</p>
+        </div>
+        <div>
+          <p class="footer-line"><a href={withBase('/contact/')}>Contact us →</a></p>
+        </div>
+        <div class="footer-tags">
+          <p class="footer-line">SYSTEMS · PEOPLE · UPTIME</p>
+          <p class="footer-line muted-line">© {new Date().getFullYear()} Qualitiv Pty Ltd</p>
+        </div>
+      </div>
+    </footer>
+
+    <script src="../scripts/nav.ts"></script>
+  </body>
+</html>
+
+<style>
+  .site-header {
+    border-bottom: 1px solid var(--hairline);
+    position: relative;
+    z-index: 10;
+  }
+  .header-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--s-lg);
+    min-height: 72px;
+  }
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: var(--s-md);
+    text-decoration: none;
+    color: var(--text);
+  }
+  .brand:visited { color: var(--text); }
+  .brand-text { display: flex; flex-direction: column; line-height: 1.1; }
+  .brand-name {
+    font-family: var(--font-display);
+    font-stretch: 125%;
+    font-weight: 750;
+    font-size: 1rem;
+    letter-spacing: 0.14em;
+  }
+  .brand-sub { font-size: 0.6875rem; letter-spacing: 0.42em; color: var(--amber); }
+
+  .nav-list {
+    display: flex;
+    gap: var(--s-lg);
+    list-style: none;
+    padding: 0;
+  }
+  .nav-link {
+    display: inline-block;
+    padding: 12px 2px; /* ≥44px tap height with line-height */
+    text-decoration: none;
+    color: var(--text);
+    font-size: var(--size-label);
+  }
+  .nav-link:visited { color: var(--text); }
+  .nav-link:hover { color: var(--amber); }
+  .nav-n { color: var(--amber); }
+  .nav-link[aria-current='page'] {
+    color: var(--amber);
+    border-bottom: 1px solid var(--amber);
+  }
+
+  /* mobile: nav visible by default (no-JS safe) — CSS checkbox collapse */
+  .nav-toggle-box { position: absolute; opacity: 0; pointer-events: none; }
+  .nav-toggle { display: none; }
+  .when-open { display: none; }
+
+  @media (max-width: 900px) {
+    .nav-toggle {
+      display: block;
+      cursor: pointer;
+      color: var(--amber);
+      font-size: var(--size-small);
+      padding: 12px 8px;
+      user-select: none;
+    }
+    nav {
+      display: none;
+      position: fixed;
+      inset: 72px 0 0 0;
+      background: var(--bg);
+      z-index: 20;
+      overflow: auto;
+    }
+    .nav-toggle-box:checked ~ nav { display: block; }
+    .nav-toggle-box:checked ~ .nav-toggle .when-closed { display: none; }
+    .nav-toggle-box:checked ~ .nav-toggle .when-open { display: inline; }
+    .nav-list {
+      flex-direction: column;
+      gap: 0;
+      padding: var(--s-xl) var(--s-lg);
+    }
+    .nav-link {
+      font-family: var(--font-display);
+      font-stretch: 125%;
+      font-size: 1.75rem;
+      font-weight: 750;
+      padding: var(--s-md) 0;
+      display: block;
+    }
+    .nav-link .nav-n { font-family: var(--font-mono); font-size: 1rem; vertical-align: super; }
+  }
+
+  .site-footer {
+    border-top: 1px solid var(--hairline);
+    margin-top: var(--s-4xl);
+    padding-block: var(--s-2xl);
+  }
+  .footer-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: var(--s-lg);
+    font-size: var(--size-label);
+  }
+  .footer-line { margin-bottom: var(--s-xs); max-width: none; }
+  .footer-tags { text-align: right; color: var(--amber); }
+  .muted-line { color: var(--muted); font-size: 1rem; }
+  @media (max-width: 640px) { .footer-tags { text-align: left; } }
+</style>

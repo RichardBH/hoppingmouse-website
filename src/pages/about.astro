@@ -1,0 +1,86 @@
+---
+import Layout from '../layouts/Layout.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import CommissioningRecord from '../components/CommissioningRecord.astro';
+import Cta from '../components/Cta.astro';
+import { BUSINESS } from '../lib/site';
+---
+
+<Layout
+  title="Experience — 30 years of control systems | Hopping Mouse Automation"
+  description="Hopping Mouse Automation is a trading name of Qualitiv Pty Ltd, Brisbane. Three decades of SCADA, PLC and control systems: prison security, nuclear fire detection, rail traction power, water networks, food processing."
+  path="/about/"
+>
+  <!-- Credentials block first (validation buyers), record as centrepiece, story last -->
+  <section class="panel">
+    <div class="wrap">
+      <span class="kicker">EXPERIENCE</span>
+      <h1 class="page-title">Thirty years.<br />Still on the tools.</h1>
+      <div class="entity mono">
+        <p>{BUSINESS.legal}</p>
+        <p>Based {BUSINESS.location} · supporting plants {BUSINESS.serviceArea.toLowerCase()} · est. 2019 (Qualitiv)</p>
+        <p>Certified Qualitiv SCADA agents · Schneider Telemetry Certified Expert · Moxa Certified Associate · ICS-CERT 210W (ICS cybersecurity)</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="panel">
+    <div class="wrap">
+      <SectionHeading kicker="1995 → PRESENT" title="The commissioning record" />
+      <p class="record-note">
+        Every consultancy says "experienced". Here is the record — the plants,
+        networks and machines our principal engineer has designed, programmed,
+        commissioned or kept running, employer by employer, for three decades.
+      </p>
+      <CommissioningRecord />
+    </div>
+  </section>
+
+  <section class="panel">
+    <div class="wrap story">
+      <SectionHeading kicker="WHY WE DO IT" title="The story, briefly" />
+      <p>
+        It started in Cape Town, writing SCADA for jam factories and gypsum
+        plants — and the system that secured a prison, gate by gate. The hook
+        was simple and hasn't let go since: <strong>making real machinery do
+        exactly what it should, reliably, when it counts.</strong>
+      </p>
+      <p>
+        Three decades later that idea has crossed most of heavy industry —
+        mining, rail, water, manufacturing, agriculture — and it still decides
+        how we engineer. Reliability isn't a spec line to us; it's a promise to
+        whoever is depending on the plant at 3am.
+      </p>
+      <p>
+        Today the delivery work runs through Qualitiv: SCADA and PLC control
+        across food and agribusiness, prototypes for people with hard ideas,
+        and a partner network we trust on site — <strong>Corematic</strong> for
+        machine vision, <strong>Tronlec</strong> for electrical work, and
+        specialist process consultants where the job demands them. We do the
+        engineering and carry the design responsibility; partners are engaged
+        openly, never hidden behind a logo.
+      </p>
+      <p>
+        And the name? The hopping mouse is a small native animal that survives
+        the harshest country in Australia by being quick, efficient and active
+        at night. We identify with that.
+      </p>
+    </div>
+  </section>
+
+  <Cta line="Talk directly to the engineer who'll design your system." />
+</Layout>
+
+<style>
+  .page-title { margin-top: var(--s-sm); }
+  .entity {
+    margin-top: var(--s-xl);
+    border: 1px solid var(--hairline);
+    background: var(--surface);
+    padding: var(--s-lg);
+    font-size: var(--size-label);
+  }
+  .entity p { margin-bottom: var(--s-xs); max-width: none; }
+  .record-note { margin-bottom: var(--s-lg); }
+  .story p { margin-bottom: var(--s-md); }
+</style>

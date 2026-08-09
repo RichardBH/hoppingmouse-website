@@ -1,0 +1,202 @@
+---
+import Layout from '../layouts/Layout.astro';
+import PidHero from '../components/PidHero.astro';
+import SensorToCloudStrip from '../components/SensorToCloudStrip.astro';
+import AlarmLog from '../components/AlarmLog.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import Cta from '../components/Cta.astro';
+import { BUSINESS, withBase } from '../lib/site';
+
+const alarmRows = [
+  { time: '02:41:07', tag: 'SILO3.TEMP', priority: 'HIGH', message: 'Silo 3 high temperature', state: 'ACTIVE' },
+  { time: '02:41:09', tag: 'DRYER.OUT.TEMP', priority: 'HIGH', message: 'Dryer outlet temperature high', state: 'ACTIVE' },
+  { time: '02:44:32', tag: 'FAN.DAMPER', priority: 'INFO', message: 'Exhaust damper opened (auto)', state: 'ACK' },
+  { time: '02:48:11', tag: 'DRYER.BURNER', priority: 'INFO', message: 'Burner modulation reduced (auto)', state: 'ACK' },
+  { time: '02:52:37', tag: 'SILO3.TEMP', priority: 'RTN', message: 'Silo 3 temperature return to normal', state: 'NORMAL' },
+] as const;
+
+const layers = [
+  { name: 'FIELD', body: 'Sensors, instrumentation, valves and variable-speed drives — specified, wired into the design, and proven at commissioning.' },
+  { name: 'CONTROL', body: 'PLC and RTU engineering on Siemens, Rockwell / Allen-Bradley, Schneider and IDEC. Interlocks, sequencing and machine control that fail safe.' },
+  { name: 'SUPERVISION', body: 'SCADA that operators trust: Ignition, ClearSCADA, Citect — and Qualitiv cloud SCADA, for which we are certified agents.' },
+  { name: 'INTELLIGENCE', body: 'Alarming done properly, batch traceability, MES integration and applied AI — the kind tied to a real process, not a slide deck.' },
+  { name: 'ENTERPRISE', body: 'Industry 4.0 without the buzzwords: getting plant data into the cloud and your business systems in a form that actually earns its keep.' },
+] as const;
+---
+
+<Layout
+  title="Hopping Mouse Automation — SCADA, PLC & control systems, Australia"
+  description="Industrial automation consultancy: SCADA (Ignition, ClearSCADA, Citect), PLC programming (Siemens, Rockwell, Schneider, IDEC) and control system design for water, agriculture, rail and manufacturing across Australia."
+  path="/"
+>
+  <!-- POSTER HERO -->
+  <section class="hero wrap">
+    <div class="hero-copy">
+      <span class="kicker reveal">HOPPING MOUSE AUTOMATION / SCADA · PLC · RTU · AI / AUSTRALIA</span>
+      <h1 class="reveal reveal-2">The whole stack.<br />Working at 3am.</h1>
+      <p class="hero-sub reveal reveal-3">{BUSINESS.positioning}</p>
+      <p class="hero-body reveal reveal-3">
+        We design, build and support the systems that run real plants — from the
+        sensors and drives on the floor, through PLC and SCADA, up to AI,
+        MES and the cloud. Engineered by people who answer the phone when it breaks.
+      </p>
+      <div class="hero-actions reveal reveal-3">
+        <a class="btn btn--solid" href={withBase('/contact/')}>Discuss your plant →</a>
+        <a class="btn" href={withBase('/case-studies/nut-processing-plant/')}>Read the field report</a>
+      </div>
+    </div>
+    <div class="hero-pid">
+      <PidHero />
+    </div>
+  </section>
+
+  <!-- PROOF RAIL -->
+  <div class="proof-rail mono" role="doc-subtitle">
+    <div class="wrap proof-inner">
+      <span>30 YEARS HANDS-ON</span>
+      <span class="rail-sep" aria-hidden="true">·</span>
+      <span>WATER / AGRI / RAIL / MANUFACTURING</span>
+      <span class="rail-sep" aria-hidden="true">·</span>
+      <span>IGNITION · SIEMENS · ROCKWELL · SCHNEIDER · IDEC</span>
+      <span class="rail-sep" aria-hidden="true">·</span>
+      <span>CERTIFIED QUALITIV SCADA AGENTS</span>
+    </div>
+  </div>
+
+  <!-- SYSTEM PATH -->
+  <section class="panel">
+    <div class="wrap">
+      <SectionHeading kicker="SENSOR → CLOUD" title="One consultancy across the whole system path" />
+      <p>
+        Most integrators own one layer and subcontract the rest. We engineer the
+        path end to end — so when the dryer trips at 3am, there's no
+        finger-pointing between the PLC vendor, the SCADA house and the IT team.
+        One design. One point of responsibility.
+      </p>
+    </div>
+    <div class="strip-holder"><SensorToCloudStrip /></div>
+  </section>
+
+  <!-- FLAGSHIP TEASER -->
+  <section class="panel">
+    <div class="wrap case-teaser">
+      <div>
+        <SectionHeading kicker="FIELD REPORT / HMA-FR-001" title="Proof: one plant, automated end to end" />
+        <p>
+          A large nut-processing plant in regional Victoria runs its entire line —
+          receiving, cleaning, drying, storage — on a control system we designed
+          and delivered: IDEC PLCs at machine level, Ignition SCADA over the top.
+          The alarm log below is what good looks like: the system caught it,
+          acted, and cleared it. Before anyone's phone rang.
+        </p>
+        <p><a href={withBase('/case-studies/nut-processing-plant/')}>Read the full field report →</a></p>
+      </div>
+      <AlarmLog caption="Dryer over-temperature event — handled automatically" rows={[...alarmRows]} />
+    </div>
+  </section>
+
+  <!-- CAPABILITY INDEX -->
+  <section class="panel">
+    <div class="wrap">
+      <SectionHeading kicker="CAPABILITY INDEX" title="Services, field to cloud" />
+      <dl class="layer-list">
+        {
+          layers.map((l) => (
+            <div class="layer-row">
+              <dt class="mono layer-name">{l.name}</dt>
+              <dd class="layer-body">{l.body}</dd>
+            </div>
+          ))
+        }
+      </dl>
+      <p class="mono partners">
+        DELIVERED WITH SPECIALIST PARTNERS — <strong>COREMATIC</strong> (MACHINE VISION) · <strong>TRONLEC</strong> (ELECTRICAL) · PROCESS SPECIALISTS AS THE JOB DEMANDS
+      </p>
+      <p><a href={withBase('/services/')}>Full services breakdown →</a></p>
+    </div>
+  </section>
+
+  <!-- CLOSING STATEMENT -->
+  <section class="panel closing">
+    <div class="wrap">
+      <p class="closing-line">
+        If the plant has to run unattended, start with the people who understand
+        the whole system.
+      </p>
+    </div>
+  </section>
+
+  <Cta />
+</Layout>
+
+<style>
+  .hero {
+    display: grid;
+    grid-template-columns: minmax(320px, 5fr) minmax(340px, 7fr);
+    gap: var(--s-2xl);
+    align-items: center;
+    padding-block: var(--s-3xl);
+  }
+  .hero-sub {
+    font-family: var(--font-mono);
+    font-size: var(--size-small);
+    color: var(--amber);
+    margin-top: var(--s-lg);
+  }
+  .hero-body { margin-top: var(--s-md); max-width: 46ch; }
+  .hero-actions { display: flex; gap: var(--s-md); margin-top: var(--s-xl); flex-wrap: wrap; }
+
+  .proof-rail {
+    border-block: 1px solid var(--hairline);
+    background: var(--surface);
+    overflow-x: auto;
+  }
+  .proof-inner {
+    display: flex;
+    gap: var(--s-md);
+    align-items: center;
+    padding-block: var(--s-md);
+    font-size: var(--size-label);
+    white-space: nowrap;
+    color: var(--text);
+  }
+  .rail-sep { color: var(--amber); }
+
+  .strip-holder { margin-top: var(--s-xl); }
+
+  .case-teaser {
+    display: grid;
+    grid-template-columns: minmax(300px, 1fr) minmax(320px, 1fr);
+    gap: var(--s-2xl);
+    align-items: start;
+  }
+
+  .layer-list { display: grid; gap: 0; }
+  .layer-row {
+    display: grid;
+    grid-template-columns: 180px 1fr;
+    gap: var(--s-lg);
+    padding-block: var(--s-md);
+    border-bottom: 1px solid var(--hairline);
+  }
+  .layer-name { color: var(--amber); font-size: var(--size-small); padding-top: 2px; }
+  .layer-body { margin: 0; max-width: 68ch; }
+  .partners { margin-top: var(--s-lg); color: var(--muted); font-size: 1rem; }
+
+  .closing { background: var(--surface); }
+  .closing-line {
+    font-family: var(--font-display);
+    font-stretch: 125%;
+    font-weight: 750;
+    font-size: clamp(1.5rem, 3.5vw, 2.5rem);
+    text-transform: uppercase;
+    line-height: 1.15;
+    max-width: 28ch;
+  }
+
+  @media (max-width: 900px) {
+    .hero { grid-template-columns: 1fr; padding-block: var(--s-xl); }
+    .case-teaser { grid-template-columns: 1fr; }
+    .layer-row { grid-template-columns: 1fr; gap: var(--s-xs); }
+  }
+</style>

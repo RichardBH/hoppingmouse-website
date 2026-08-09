@@ -1,0 +1,79 @@
+---
+import { getCollection, render } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+import AlarmLog from '../../components/AlarmLog.astro';
+import Cta from '../../components/Cta.astro';
+
+export async function getStaticPaths() {
+  const entries = await getCollection('case-studies');
+  return entries.map((entry) => ({ params: { slug: entry.id }, props: { entry } }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+
+const alarmRows = [
+  { time: '02:41:07', tag: 'SILO3.TEMP', priority: 'HIGH', message: 'Silo 3 high temperature', state: 'ACTIVE' },
+  { time: '02:44:32', tag: 'FAN.DAMPER', priority: 'INFO', message: 'Exhaust damper opened (auto)', state: 'ACK' },
+  { time: '02:52:37', tag: 'SILO3.TEMP', priority: 'RTN', message: 'Temperature return to normal', state: 'NORMAL' },
+] as const;
+---
+
+<Layout
+  title={`${entry.data.title} — field report | Hopping Mouse Automation`}
+  description={entry.data.summary}
+  path={`/case-studies/${entry.id}/`}
+>
+  <article class="panel">
+    <div class="wrap">
+      <!-- engineering-document title block -->
+      <div class="title-block mono">
+        <div><span class="tb-label">REPORT NO.</span> {entry.data.reportNo}</div>
+        <div><span class="tb-label">SECTOR</span> {entry.data.sector.toUpperCase()}</div>
+        <div><span class="tb-label">PLATFORMS</span> {entry.data.platforms.join(' · ')}</div>
+        <div><span class="tb-label">STATUS</span> <span class="state-ok">DELIVERED · IN PRODUCTION</span></div>
+        {entry.data.anonymised && <div><span class="tb-label">CLIENT</span> ANONYMISED — PENDING RELEASE APPROVAL</div>}
+      </div>
+
+      <span class="kicker">FIELD REPORT</span>
+      <h1 class="page-title">{entry.data.title}</h1>
+
+      <div class="report-alarm">
+        <AlarmLog caption="What good looks like — an event the system handled alone" rows={[...alarmRows]} />
+      </div>
+
+      <div class="prose">
+        <Content />
+      </div>
+    </div>
+  </article>
+
+  <Cta line="Discuss a similar plant." />
+</Layout>
+
+<style>
+  .title-block {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    border: 1px solid var(--hairline);
+    background: var(--surface);
+    margin-bottom: var(--s-2xl);
+    font-size: var(--size-label);
+  }
+  .title-block > div { padding: var(--s-md); border-right: 1px solid var(--hairline); }
+  .title-block > div:last-child { border-right: 0; }
+  .tb-label { color: var(--muted); font-size: 1rem; display: block; margin-bottom: var(--s-2xs); }
+  .page-title { margin-top: var(--s-sm); max-width: 22ch; }
+  .report-alarm { margin-block: var(--s-xl); max-width: 820px; }
+  .prose :global(h2) {
+    font-size: var(--size-h3);
+    margin-top: var(--s-2xl);
+    margin-bottom: var(--s-md);
+    padding-top: var(--s-lg);
+    border-top: 1px solid var(--hairline);
+  }
+  .prose :global(p) { margin-bottom: var(--s-md); }
+  .prose :global(ul) { padding-left: 1.2em; margin-bottom: var(--s-md); }
+  .prose :global(li) { margin-bottom: var(--s-sm); max-width: 65ch; }
+  .prose :global(em) { color: var(--muted); }
+</style>

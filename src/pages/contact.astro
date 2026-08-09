@@ -1,0 +1,146 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { BUSINESS, FORM_ENDPOINT_AJAX_B64, absUrl } from '../lib/site';
+
+const sentUrl = absUrl('/contact/sent/', Astro.site);
+const e64 = FORM_ENDPOINT_AJAX_B64;
+---
+
+<Layout
+  title="Contact — Hopping Mouse Automation"
+  description="Talk to an industrial automation engineer about your plant. Brisbane based, Australia-wide."
+  path="/contact/"
+>
+  <section class="panel">
+    <div class="wrap contact-grid">
+      <div>
+        <span class="kicker">CONTACT</span>
+        <h1 class="page-title">Tell us about<br />your plant</h1>
+        <p class="lede">
+          What does it make, what's hurting, and what should the system do that
+          it doesn't? Plain words are fine — we'll ask the engineering
+          questions.
+        </p>
+        <div class="direct mono">
+          <p><span class="direct-label">AREA</span> Based {BUSINESS.location} — {BUSINESS.serviceArea}</p>
+          <p><span class="direct-label">RESPONSE</span> Within 1 business day</p>
+        </div>
+      </div>
+
+      <form
+        id="contact-form"
+        class="contact-form"
+        action="#"
+        method="POST"
+        data-e64={e64}
+        data-sent={sentUrl}
+        novalidate
+      >
+        <input type="hidden" name="_subject" value="Enquiry — Hopping Mouse Automation website" />
+        <input type="hidden" name="_captcha" value="false" />
+        <!-- honeypot: bots fill it, humans never see it -->
+        <input type="text" name="_honey" tabindex="-1" autocomplete="off" class="honey" aria-hidden="true" />
+
+        <div class="field">
+          <label for="f-name" class="mono">NAME</label>
+          <input id="f-name" name="name" type="text" required autocomplete="name" aria-describedby="err-name" />
+          <p class="err mono" id="err-name" hidden>Name is required.</p>
+        </div>
+        <div class="field">
+          <label for="f-company" class="mono">COMPANY / PLANT</label>
+          <input id="f-company" name="company" type="text" autocomplete="organization" />
+        </div>
+        <div class="field">
+          <label for="f-email" class="mono">EMAIL</label>
+          <input id="f-email" name="email" type="email" required autocomplete="email" aria-describedby="err-email" />
+          <p class="err mono" id="err-email" hidden>A valid email is required so we can reply.</p>
+        </div>
+        <div class="field">
+          <label for="f-phone" class="mono">PHONE (OPTIONAL)</label>
+          <input id="f-phone" name="phone" type="tel" autocomplete="tel" />
+        </div>
+        <div class="field">
+          <label for="f-message" class="mono">WHAT SHOULD THE PLANT DO?</label>
+          <textarea id="f-message" name="message" rows="6" required aria-describedby="err-message"></textarea>
+          <p class="err mono" id="err-message" hidden>Tell us at least a sentence about the plant or problem.</p>
+        </div>
+
+        <button class="btn btn--solid submit-btn" type="submit">
+          <span class="label-idle">Send enquiry →</span>
+          <span class="label-busy mono" hidden>TRANSMITTING…</span>
+        </button>
+
+        <p class="form-fail mono" id="form-fail" hidden>
+          SEND FAILED — your message is still in the form. Please retry in a
+          minute; if it keeps failing, try again later. Nothing you typed has
+          been lost.
+        </p>
+        <noscript>
+          <p class="form-fail mono">
+            This form needs JavaScript to send (it keeps our inbox off
+            spam-scraper lists). Please enable JavaScript, or reach us through
+            the Qualitiv company channels.
+          </p>
+        </noscript>
+      </form>
+    </div>
+  </section>
+</Layout>
+
+<script src="../scripts/form.ts"></script>
+
+<style>
+  .contact-grid {
+    display: grid;
+    grid-template-columns: minmax(280px, 1fr) minmax(320px, 1fr);
+    gap: var(--s-3xl);
+    align-items: start;
+  }
+  .page-title { margin-top: var(--s-sm); }
+  .lede { margin-top: var(--s-lg); font-size: 1.125rem; max-width: 44ch; }
+  .direct { margin-top: var(--s-xl); font-size: var(--size-small); }
+  .direct p { margin-bottom: var(--s-sm); max-width: none; }
+  .direct-label { color: var(--muted); font-size: 1rem; display: inline-block; min-width: 96px; }
+
+  .contact-form {
+    border: 1px solid var(--hairline);
+    background: var(--surface);
+    padding: var(--s-xl);
+    display: grid;
+    gap: var(--s-lg);
+  }
+  .honey { position: absolute; left: -9999px; height: 0; width: 0; opacity: 0; }
+  .field { display: grid; gap: var(--s-sm) }
+  label { font-size: var(--size-label); color: var(--amber); letter-spacing: 0.08em; }
+  input[type='text'],
+  input[type='email'],
+  input[type='tel'],
+  textarea {
+    background: var(--bg);
+    border: 1px solid var(--hairline);
+    color: var(--text);
+    padding: 12px 14px; /* 44px+ target height */
+    font-size: 1rem;
+    min-height: 44px;
+  }
+  input:focus-visible, textarea:focus-visible {
+    outline: none;
+    border-color: var(--amber);
+    box-shadow: 0 0 0 1px var(--amber);
+  }
+  /* keep Chrome autofill from painting the page blue/yellow */
+  input:-webkit-autofill, textarea:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0 60px var(--bg) inset;
+    -webkit-text-fill-color: var(--text);
+    caret-color: var(--text);
+  }
+  .field.invalid input, .field.invalid textarea { border-color: var(--alarm); }
+  .err { color: var(--alarm); font-size: 1rem; margin: 0; }
+  .submit-btn { justify-self: start; }
+  .submit-btn[disabled] { opacity: 0.7; cursor: wait; }
+  .form-fail { color: var(--alarm); font-size: 1rem; margin: 0; max-width: none; }
+
+  @media (max-width: 900px) {
+    .contact-grid { grid-template-columns: 1fr; gap: var(--s-xl); }
+  }
+</style>

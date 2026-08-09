@@ -1,0 +1,36 @@
+---
+// Every page ends here — no dead ends. Context line varies per page.
+// No direct phone/email in public output (owner decision: spam).
+import { withBase } from '../lib/site';
+
+interface Props {
+  line?: string;
+  button?: string;
+}
+const { line = 'Tell us about your plant and what it needs to do.', button = 'Discuss your plant' } = Astro.props;
+---
+
+<section class="panel cta-panel">
+  <div class="wrap">
+    <p class="cta-line">{line}</p>
+    <div class="cta-row">
+      <a class="btn btn--solid" href={withBase('/contact/')}>{button} →</a>
+      <span class="mono cta-note">Response within 1 business day</span>
+    </div>
+  </div>
+</section>
+
+<style>
+  .cta-line {
+    font-family: var(--font-display);
+    font-stretch: 125%;
+    font-weight: 750;
+    font-size: clamp(1.375rem, 3vw, 2rem);
+    text-transform: uppercase;
+    line-height: 1.15;
+    max-width: 24ch;
+    margin-bottom: var(--s-lg);
+  }
+  .cta-row { display: flex; align-items: center; gap: var(--s-lg); flex-wrap: wrap; }
+  .cta-note { font-size: var(--size-label); color: var(--muted); font-size: 1rem; }
+</style>

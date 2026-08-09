@@ -1,0 +1,93 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+import SectionHeading from '../../components/SectionHeading.astro';
+import Cta from '../../components/Cta.astro';
+import { withBase } from '../../lib/site';
+
+const reports = (await getCollection('case-studies')).sort(
+  (a, b) => a.data.order - b.data.order,
+);
+
+// Sector evidence rows — real delivery history, not yet written up as full
+// reports. Non-linked by design so a one-report index never reads as empty.
+const evidence = [
+  { no: 'LOG-R01', sector: 'RAIL', item: '25/50kV traction power SCADA, Queensland network — 200+ RTUs, three control rooms' },
+  { no: 'LOG-W01', sector: 'WATER', item: 'Sewage pump station telemetry and treatment plant control, SEQ utilities — a decade of live upgrades' },
+  { no: 'LOG-A02', sector: 'AGRI', item: 'Grain and macadamia dryer control; seed grading plant automation' },
+  { no: 'LOG-M01', sector: 'MINING', item: 'Remote condition monitoring for vibrating screens — BHP, Anglo American, FMG sites' },
+] as const;
+---
+
+<Layout
+  title="Field reports — case studies | Hopping Mouse Automation"
+  description="Case studies from real plants: full-stack automation of a large nut-processing plant (Ignition SCADA, IDEC PLCs), plus delivery history across rail, water, agriculture and mining."
+  path="/case-studies/"
+>
+  <section class="panel">
+    <div class="wrap">
+      <span class="kicker">FIELD REPORTS</span>
+      <h1 class="page-title">Evidence,<br />not adjectives</h1>
+      <p class="lede">
+        Full write-ups where clients have approved them; the delivery log
+        where they haven't yet. More reports are in preparation.
+      </p>
+
+      <div class="report-block">
+        <table class="hmi stack">
+          <caption>Published reports</caption>
+          <thead>
+            <tr><th scope="col">Report</th><th scope="col">Sector</th><th scope="col">Summary</th><th scope="col">Platforms</th></tr>
+          </thead>
+          <tbody>
+            {
+              reports.map((r) => (
+                <tr>
+                  <td data-th="REPORT"><a href={withBase(`/case-studies/${r.id}/`)}>{r.data.reportNo}</a></td>
+                  <td data-th="SECTOR" class="sector">{r.data.sector.toUpperCase()}</td>
+                  <td data-th="SUMMARY" class="summary"><a href={withBase(`/case-studies/${r.id}/`)}>{r.data.title}</a></td>
+                  <td data-th="PLATFORMS">{r.data.platforms.join(' · ')}</td>
+                </tr>
+              ))
+            }
+          </tbody>
+        </table>
+      </div>
+
+      <div class="report-block">
+        <table class="hmi stack">
+          <caption>Delivery log — write-ups pending</caption>
+          <thead>
+            <tr><th scope="col">Ref</th><th scope="col">Sector</th><th scope="col">Delivered</th></tr>
+          </thead>
+          <tbody>
+            {
+              evidence.map((e) => (
+                <tr>
+                  <td data-th="REF">{e.no}</td>
+                  <td data-th="SECTOR" class="sector">{e.sector}</td>
+                  <td data-th="DELIVERED" class="summary">{e.item}</td>
+                </tr>
+              ))
+            }
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <Cta line="Want the detail behind any log entry? Ask." />
+</Layout>
+
+<style>
+  .page-title { margin-top: var(--s-sm); }
+  .lede { margin-top: var(--s-lg); font-size: 1.25rem; max-width: 52ch; }
+  .report-block {
+    border: 1px solid var(--hairline);
+    background: var(--surface);
+    padding: var(--s-lg);
+    margin-top: var(--s-xl);
+  }
+  .sector { color: var(--amber); }
+  .summary { font-family: var(--font-body); font-size: var(--size-small); }
+</style>

@@ -1,0 +1,88 @@
+---
+import Layout from '../layouts/Layout.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import Cta from '../components/Cta.astro';
+
+const sectors = [
+  {
+    kicker: 'SECTOR / WATER & WASTEWATER',
+    title: 'Water: networks, treatment and telemetry',
+    body: `A decade inside the water industry — treatment plants, sewage pump stations, wide-area radio telemetry networks — delivering and supporting the control systems utilities depend on, through to principal-level OT governance for a major South-East Queensland utility. Live brownfield upgrades on operating assets are a speciality: the sewage doesn't stop for commissioning.`,
+    evidence: 'ClearSCADA · Citect · MultiSmart · Kingfisher · SCADAPack · DNP3 radio telemetry',
+  },
+  {
+    kicker: 'SECTOR / AGRICULTURE & FOOD',
+    title: 'Agriculture: processing plants that run the season',
+    body: `Nut processing, macadamia and grain drying, seed grading, wood fibre refining — food and agribusiness is where our current delivery work is concentrated. Seasonal plants get one shot at the harvest: the control system has to hold up around the clock, be operable by a small team, and protect product quality while it does.`,
+    evidence: 'Ignition SCADA · IDEC PLCs · dryer control · batch & quality traceability',
+  },
+  {
+    kicker: 'SECTOR / RAIL',
+    title: 'Rail: traction power and tunnel systems',
+    body: `Maintained and upgraded the SCADA behind 25/50kV traction power across Queensland — three control rooms, more than two hundred RTUs and a custom DNP3 driver — plus tunnel ventilation control and a 2000-camera metropolitan CCTV network. Rail teaches a discipline other sectors borrow from us: nothing ships without a rollback plan.`,
+    evidence: 'Citect · Kingfisher RTUs · custom DNP3 · Wonderware · Omron / ABB / Allen-Bradley',
+  },
+  {
+    kicker: 'SECTOR / MANUFACTURING & MINING',
+    title: 'Manufacturing: machine control and condition monitoring',
+    body: `From polymer curing ovens on IDEC PLCs to remote condition monitoring hardware we designed from the PCB up for vibrating screens on BHP and Anglo American sites — manufacturing and mining work spanning machine control, instrumentation and the electronics behind it. When the off-the-shelf answer doesn't exist, we build it.`,
+    evidence: 'IDEC · Citect · bespoke instrumentation · vibration & thermal condition monitoring',
+  },
+] as const;
+---
+
+<Layout
+  title="Sectors — water, agriculture, rail, manufacturing | Hopping Mouse Automation"
+  description="Industrial automation across water and wastewater, agriculture and food processing, rail traction power, and manufacturing — SCADA, PLC and telemetry experience with evidence in each sector."
+  path="/sectors/"
+>
+  <section class="panel">
+    <div class="wrap">
+      <span class="kicker">SECTORS</span>
+      <h1 class="page-title">Different plants.<br />Same physics.</h1>
+      <p class="lede">
+        A dryer, a pump station and a traction substation fail in different ways —
+        but they're all real machinery that has to do exactly what it should,
+        reliably, when it counts. Here's where we've proven that.
+      </p>
+    </div>
+  </section>
+
+  {
+    sectors.map((s) => (
+      <section class="panel">
+        <div class="wrap sector-grid">
+          <div>
+            <SectionHeading kicker={s.kicker} title={s.title} />
+            <p>{s.body}</p>
+          </div>
+          <p class="mono evidence">{s.evidence}</p>
+        </div>
+      </section>
+    ))
+  }
+
+  <Cta line="Your sector not listed? The physics won't be new to us." />
+</Layout>
+
+<style>
+  .page-title { margin-top: var(--s-sm); }
+  .lede { margin-top: var(--s-lg); font-size: 1.25rem; max-width: 52ch; }
+  .sector-grid {
+    display: grid;
+    grid-template-columns: minmax(300px, 2fr) minmax(200px, 1fr);
+    gap: var(--s-2xl);
+    align-items: start;
+  }
+  .evidence {
+    color: var(--muted);
+    font-size: 1rem;
+    border-left: 1px solid var(--hairline);
+    padding-left: var(--s-lg);
+    line-height: 2;
+  }
+  @media (max-width: 900px) {
+    .sector-grid { grid-template-columns: 1fr; gap: var(--s-lg); }
+    .evidence { border-left: 0; padding-left: 0; border-top: 1px solid var(--hairline); padding-top: var(--s-md); }
+  }
+</style>

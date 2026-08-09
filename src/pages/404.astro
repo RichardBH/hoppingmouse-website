@@ -1,0 +1,38 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { withBase } from '../lib/site';
+---
+
+<Layout
+  title="404 — page not found | Hopping Mouse Automation"
+  description="This page does not exist."
+  path="/404/"
+  noindex
+>
+  <section class="panel">
+    <div class="wrap">
+      <table class="hmi err-table">
+        <caption>Navigation event log</caption>
+        <thead><tr><th scope="col">Time</th><th scope="col">Tag</th><th scope="col">Pri</th><th scope="col">Event</th><th scope="col">State</th></tr></thead>
+        <tbody>
+          <tr>
+            <td>--:--:--</td>
+            <td>NAV.ROUTE</td>
+            <td class="state-alarm">HIGH</td>
+            <td>404 — PAGE NOT FOUND</td>
+            <td class="state-alarm">ACTIVE</td>
+          </tr>
+        </tbody>
+      </table>
+      <h1 class="page-title">Page not found.<br />ACK?</h1>
+      <p class="lede">Whatever was here isn't. The rest of the plant is running normally.</p>
+      <p><a class="btn" href={withBase('/')}>→ RTN NORMAL (home)</a></p>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .err-table { max-width: 720px; margin-bottom: var(--s-2xl); }
+  .page-title { margin-top: var(--s-md); }
+  .lede { margin-block: var(--s-lg); }
+</style>

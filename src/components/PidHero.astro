@@ -1,0 +1,170 @@
+---
+// The signature element: a representative P&ID of a nut-processing line,
+// drawn in thin greyscale linework with amber tag callouts that tick.
+// One SVG only — mobile is a viewBox crop via CSS/media, never a second drawing.
+// Honesty rules (PLAN.md): clearly labelled REPRESENTATIVE — SIMULATED VALUES;
+// plausible setpoints, small drift, states never leave GOOD.
+---
+
+<figure class="pid" aria-labelledby="pid-title" aria-describedby="pid-desc">
+  <figcaption class="mono pid-caption">
+    <span>NUT PROCESSING LINE — P&ID (EXTRACT)</span>
+    <span class="pid-sim">REPRESENTATIVE SCHEMATIC — SIMULATED VALUES</span>
+  </figcaption>
+
+  <svg
+    class="pid-svg"
+    viewBox="0 0 760 460"
+    fill="none"
+    stroke-linecap="round"
+    role="img"
+  >
+    <title id="pid-title">Representative process and instrumentation diagram</title>
+    <desc id="pid-desc">
+      A stylised schematic of a nut-processing line: receiving hopper feeding a
+      cleaning line, then a dryer and four silos, connected to a PLC panel, a
+      SCADA server and a cloud link. Amber callouts show simulated live tag
+      values such as dryer outlet temperature and silo level.
+    </desc>
+
+    <g stroke="#6b6157" stroke-width="1.2" aria-hidden="true">
+      <!-- receiving hopper -->
+      <path d="M40 90 h70 l-14 44 h-42 Z" />
+      <path d="M63 134 v14 h24 v-14" />
+      <!-- conveyor to cleaning line -->
+      <path d="M87 156 h96" stroke-dasharray="4 5" class="draw" />
+      <circle cx="110" cy="163" r="6" /><circle cx="160" cy="163" r="6" />
+      <path d="M104 156 h62" />
+      <!-- cleaning line -->
+      <rect x="192" y="128" width="104" height="36" />
+      <path d="M204 140 h80 M204 152 h80" stroke-width="0.8" />
+      <!-- dryer -->
+      <path d="M330 96 h56 v90 a28 28 0 0 1-56 0 Z" />
+      <path d="M338 118 q10 -8 20 0 t20 0 M338 140 q10 -8 20 0 t20 0" stroke-width="0.9" />
+      <path d="M348 196 l10 14 l10 -14" />
+      <!-- burner flame mark -->
+      <path d="M357 226 q4 -10 8 0 q3 8 -4 10 q-7 -2 -4 -10 Z" stroke="#8a7a5a" />
+      <!-- pipe to silos -->
+      <path d="M386 130 h74 v-44 h100" class="draw" />
+      <!-- silo farm -->
+      <g>
+        <path d="M560 60 h34 v70 l-17 20 l-17 -20 Z" />
+        <path d="M604 60 h34 v70 l-17 20 l-17 -20 Z" />
+        <path d="M648 60 h34 v70 l-17 20 l-17 -20 Z" />
+        <path d="M692 60 h34 v70 l-17 20 l-17 -20 Z" />
+      </g>
+      <!-- discharge conveyor under silos -->
+      <path d="M560 168 h166" />
+      <circle cx="580" cy="175" r="6" /><circle cx="700" cy="175" r="6" />
+      <path d="M726 168 l14 0" stroke-dasharray="3 4" />
+
+      <!-- instrument signal lines (dashed) down to PLC -->
+      <path d="M360 210 v70 h60" stroke-dasharray="3 5" class="draw" />
+      <path d="M244 164 v116 h176" stroke-dasharray="3 5" class="draw" />
+      <path d="M611 150 v130 h-191" stroke-dasharray="3 5" class="draw" />
+
+      <!-- PLC panel -->
+      <rect x="420" y="256" width="88" height="70" />
+      <path d="M430 268 h20 v46 h-20 Z M456 268 h10 v46 h-10 Z M472 268 h10 v46 h-10 Z M488 268 h10 v46 h-10 Z" stroke-width="0.9" />
+      <!-- PLC → SCADA -->
+      <path d="M508 292 h64" class="draw" />
+      <!-- SCADA server + screen -->
+      <rect x="572" y="262" width="42" height="64" />
+      <path d="M578 272 h30 M578 282 h30 M578 292 h30" stroke-width="0.8" />
+      <rect x="626" y="268" width="54" height="38" />
+      <path d="M632 296 q8 -14 16 -6 t14 -8 t12 6" stroke="#8a7a5a" stroke-width="0.9" />
+      <path d="M648 306 v10 h16" stroke-width="0.9" />
+      <!-- SCADA → cloud -->
+      <path d="M680 287 h30 v-30" class="draw" />
+      <path d="M694 240 q-8 0 -8 -8 q0 -10 11 -10 q3 -8 13 -8 q10 0 13 8 q10 1 10 10 q0 8 -9 8 Z" />
+      <!-- lock mark in cloud (secure link) -->
+      <path d="M708 228 v-4 a4 4 0 0 1 8 0 v4 M705 228 h14 v9 h-14 Z" stroke-width="0.9" />
+    </g>
+
+    <!-- instrument bubbles -->
+    <g stroke="#6b6157" stroke-width="1" class="mono-svg" aria-hidden="true">
+      <circle cx="120" cy="110" r="13" />
+      <text x="120" y="114" text-anchor="middle" class="bubble-t">LT</text>
+      <circle cx="415" cy="120" r="13" />
+      <text x="415" y="124" text-anchor="middle" class="bubble-t">TT</text>
+      <circle cx="530" cy="86" r="13" />
+      <text x="530" y="90" text-anchor="middle" class="bubble-t">FIT</text>
+      <circle cx="330" cy="240" r="13" stroke="#3fc478" />
+      <text x="330" y="244" text-anchor="middle" class="bubble-t" fill="#3fc478">PSL</text>
+    </g>
+
+    <!-- amber tag callouts (JS ticks the values; static defaults for no-JS) -->
+    <g class="mono-svg" aria-hidden="true">
+      <g class="callout" transform="translate(300 44)">
+        <rect width="176" height="26" stroke="var(--amber)" stroke-width="1" />
+        <text x="8" y="17"><tspan class="t-tag">DRYER.OUT.TEMP</tspan> <tspan class="t-val" data-tag="dryer" data-base="68.3" data-amp="0.3" data-unit="°C">= 68.3°C</tspan> <tspan class="t-ok">GOOD</tspan></text>
+      </g>
+      <g class="callout" transform="translate(560 6)">
+        <rect width="168" height="26" stroke="var(--amber)" stroke-width="1" />
+        <text x="8" y="17"><tspan class="t-tag">SILO3.LEVEL</tspan> <tspan class="t-val" data-tag="silo" data-base="63.4" data-amp="0.2" data-unit="%">= 63.4%</tspan> <tspan class="t-ok">GOOD</tspan></text>
+      </g>
+      <g class="callout" transform="translate(160 300)">
+        <rect width="180" height="26" stroke="var(--amber)" stroke-width="1" />
+        <text x="8" y="17"><tspan class="t-tag">CONVEYOR.CV1.SP</tspan> <tspan class="t-val" data-tag="cv" data-base="42.0" data-amp="0.1" data-unit="%">= 42.0%</tspan> <tspan class="t-ok">GOOD</tspan></text>
+      </g>
+      <g class="callout" transform="translate(560 350)">
+        <rect width="168" height="26" stroke="var(--amber)" stroke-width="1" />
+        <text x="8" y="17"><tspan class="t-tag">CLOUD.LINK.RTT</tspan> <tspan class="t-val" data-tag="rtt" data-base="28" data-amp="2" data-unit="ms" data-int>= 28ms</tspan> <tspan class="t-ok">GOOD</tspan></text>
+      </g>
+      <!-- equipment labels -->
+      <text x="42" y="76" class="lbl">V-101 HOPPER</text>
+      <text x="192" y="120" class="lbl">C-101 CLEANING</text>
+      <text x="326" y="88" class="lbl">D-101 DRYER</text>
+      <text x="560" y="48" class="lbl">SILO FARM 01–04</text>
+      <text x="420" y="248" class="lbl">PLC PANEL</text>
+      <text x="572" y="254" class="lbl">SCADA</text>
+      <text x="688" y="200" class="lbl">CLOUD</text>
+      <text x="40" y="200" class="lbl">RAW IN →</text>
+      <text x="700" y="196" class="lbl" />
+    </g>
+  </svg>
+  <noscript><p class="mono pid-noscript">Static schematic — live simulation requires JavaScript (nothing else does).</p></noscript>
+</figure>
+
+<script src="../scripts/ticker.ts"></script>
+
+<style>
+  .pid {
+    border: 1px solid var(--hairline);
+    background: var(--surface);
+    padding: var(--s-md);
+    margin: 0;
+  }
+  .pid-caption {
+    display: flex;
+    justify-content: space-between;
+    gap: var(--s-md);
+    flex-wrap: wrap;
+    font-size: var(--size-label);
+    color: var(--text);
+    padding-bottom: var(--s-md);
+  }
+  .pid-sim { color: var(--muted); font-size: 0.75rem; letter-spacing: 0.05em; align-self: center; }
+  .pid-svg { width: 100%; height: auto; display: block; }
+  .mono-svg text { font-family: var(--font-mono); font-size: 12px; fill: var(--text); }
+  .mono-svg .bubble-t { font-size: 9px; fill: #6b6157; }
+  .mono-svg .lbl { font-size: 10px; fill: var(--muted); letter-spacing: 0.06em; }
+  .t-tag { fill: var(--text); }
+  .t-val { fill: var(--amber); }
+  .t-ok { fill: var(--ok); }
+  .pid-noscript { color: var(--muted); font-size: var(--size-label); padding-top: var(--s-sm); }
+
+  /* mobile: crop the same SVG to the dryer→silos→PLC core — no second drawing */
+  @media (max-width: 768px) {
+    .pid-svg { aspect-ratio: 460 / 420; }
+    .pid-svg { view-box: inherit; }
+  }
+
+  /* draw-once entrance for the connecting lines */
+  @media (prefers-reduced-motion: no-preference) {
+    .pid-svg .draw {
+      stroke-dashoffset: 0;
+      animation: none;
+    }
+  }
+</style>

@@ -1,0 +1,51 @@
+---
+// The services spine: the actual system path, not four interchangeable cards.
+const STAGES = [
+  { label: 'SENSORS', sub: '4–20mA · DI/DO · RTD/TC' },
+  { label: 'I/O + RTU', sub: 'marshalling · telemetry' },
+  { label: 'PLC / PAC', sub: 'control & logic' },
+  { label: 'SCADA / HMI', sub: 'visualise & operate' },
+  { label: 'HISTORIAN', sub: 'store & contextualise' },
+  { label: 'AI / ANALYTICS', sub: 'insight & prediction' },
+  { label: 'CLOUD / ERP', sub: 'data that earns its keep' },
+] as const;
+---
+
+<div class="stc" role="img" aria-label="System path: sensors, I/O and RTU, PLC, SCADA and HMI, historian, AI analytics, cloud and enterprise systems">
+  <ol class="stc-track mono" aria-hidden="true">
+    {
+      STAGES.map((s, i) => (
+        <li class="stc-stage">
+          <span class="stc-label">{s.label}</span>
+          <span class="stc-sub">{s.sub}</span>
+          {i < STAGES.length - 1 && <span class="stc-link">⟶</span>}
+        </li>
+      ))
+    }
+  </ol>
+</div>
+
+<style>
+  .stc { overflow-x: auto; border-block: 1px solid var(--hairline); background: var(--surface); }
+  .stc-track {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--s-sm);
+    list-style: none;
+    padding: var(--s-lg);
+    margin: 0;
+    min-width: max-content;
+  }
+  .stc-stage { display: flex; align-items: baseline; gap: var(--s-sm); white-space: nowrap; }
+  .stc-label {
+    color: var(--text);
+    border: 1px solid var(--hairline);
+    padding: var(--s-sm) var(--s-md);
+    font-size: var(--size-label);
+  }
+  .stc-sub { color: var(--muted); font-size: 1rem; display: block; }
+  .stc-link { color: var(--amber); padding-inline: var(--s-xs); }
+  @media (max-width: 640px) {
+    .stc-sub { display: none; } /* labels only on phones — still scannable */
+  }
+</style>

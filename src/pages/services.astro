@@ -1,0 +1,131 @@
+---
+import Layout from '../layouts/Layout.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import SensorToCloudStrip from '../components/SensorToCloudStrip.astro';
+import Cta from '../components/Cta.astro';
+
+const layers = [
+  {
+    kicker: 'LAYER 01 / FIELD',
+    title: 'Field: sensors, drives, valves, instrumentation',
+    body: `Automation starts where the product moves. We specify and integrate the field layer — temperature, level, pressure and flow instrumentation, variable-speed drives, valves and actuators — into a control design that can actually be commissioned, maintained and fault-found at 3am. Condition monitoring too: bearing vibration, silo temperature and humidity, the signals that tell you a breakdown is coming.`,
+    platforms: '4–20mA · HART · IO-Link · Modbus · Profinet · EtherNet/IP',
+  },
+  {
+    kicker: 'LAYER 02 / CONTROL',
+    title: 'Control: PLC and RTU engineering',
+    body: `Machine-level control is where reliability is won or lost. We design and program PLCs and RTUs with explicit interlocks, honest fault handling and sequencing an electrician can follow — on Siemens, Rockwell / Allen-Bradley, Schneider and IDEC platforms, plus telemetry RTUs (Kingfisher, SCADAPack) for wide-area networks. Greenfield builds, and live brownfield upgrades where production can't stop while the control system changes underneath it.`,
+    platforms: 'Siemens · Rockwell / Allen-Bradley · Schneider · IDEC · Kingfisher · SCADAPack · DNP3',
+  },
+  {
+    kicker: 'LAYER 03 / SUPERVISION',
+    title: 'SCADA: the operator’s single source of truth',
+    body: `A SCADA system earns trust by showing measured reality — run feedback, not commanded intent — and by alarming only when something needs a human. We build on Ignition, ClearSCADA / GeoSCADA and Citect, applying high-performance HMI principles: state at a glance, alarm rationalisation, trends where operators need them. We are certified agents for Qualitiv cloud SCADA — real-time monitoring, alarming and remote control with batch traceability for smaller plants that want big-plant visibility without big-plant infrastructure.`,
+    platforms: 'Ignition · ClearSCADA / GeoSCADA · Citect · Wonderware · Qualitiv cloud SCADA (certified agents)',
+  },
+  {
+    kicker: 'LAYER 04 / INTELLIGENCE',
+    title: 'Intelligence: alarming, traceability, MES and applied AI',
+    body: `Above the control layer sits the software that turns a running plant into a managed one: alarm systems that operators respect, batch and quality traceability, MES integration, and applied AI — machine vision for grading and inspection (with our partner Corematic), prediction on real process data. Every intelligence feature we deliver is tied to a measured process variable and a person who acts on it.`,
+    platforms: 'MES · batch traceability · machine vision · applied AI on process data',
+  },
+  {
+    kicker: 'LAYER 05 / ENTERPRISE',
+    title: 'Enterprise & cloud: data that earns its keep',
+    body: `Industry 4.0, delivered plainly: historians and data pipelines that move plant data into the cloud and business systems with its context intact — so production, quality and maintenance decisions are made on evidence. Secure by design: segmented OT networks, controlled remote access, and an ICS security posture informed by formal training (ICS-CERT) and utility-grade OT governance experience.`,
+    platforms: 'Historians · OPC UA · MQTT · cloud pipelines · OT network security',
+  },
+] as const;
+
+const engagements = [
+  { name: 'GREENFIELD', body: 'Full control system design and delivery for new plant — philosophy to commissioning.' },
+  { name: 'BROWNFIELD', body: 'Live upgrades on operating plant. Staged cutovers, proven rollbacks, production protected.' },
+  { name: 'AUDITS', body: 'Control system, alarm and OT-security audits with a prioritised, costed findings register.' },
+  { name: 'SUPPORT', body: 'Ongoing support and fault response for systems we build — and ones we didn’t.' },
+] as const;
+---
+
+<Layout
+  title="Services — SCADA, PLC programming & control systems | Hopping Mouse Automation"
+  description="SCADA integrator and PLC programming services across Australia: Ignition, ClearSCADA, Citect SCADA; Siemens, Rockwell, Schneider, IDEC PLCs; MES, traceability and Industry 4.0 data pipelines."
+  path="/services/"
+>
+  <section class="panel">
+    <div class="wrap">
+      <span class="kicker">SERVICES</span>
+      <h1 class="page-title">Field to cloud,<br />one responsibility</h1>
+      <p class="lede">
+        Every service we offer sits somewhere on one path — the path a signal
+        takes from a sensor on the plant floor to a decision in your business.
+        We engineer the whole path, so nothing falls between vendors.
+      </p>
+    </div>
+    <div class="strip-holder"><SensorToCloudStrip /></div>
+  </section>
+
+  {
+    layers.map((l) => (
+      <section class="panel">
+        <div class="wrap layer-grid">
+          <div>
+            <SectionHeading kicker={l.kicker} title={l.title} />
+            <p>{l.body}</p>
+          </div>
+          <p class="mono platforms">{l.platforms}</p>
+        </div>
+      </section>
+    ))
+  }
+
+  <section class="panel">
+    <div class="wrap">
+      <SectionHeading kicker="ENGAGEMENT" title="How plants work with us" />
+      <dl class="eng-list">
+        {
+          engagements.map((e) => (
+            <div class="eng-row">
+              <dt class="mono eng-name">{e.name}</dt>
+              <dd class="eng-body">{e.body}</dd>
+            </div>
+          ))
+        }
+      </dl>
+    </div>
+  </section>
+
+  <Cta line="Tell us which layer is hurting — or hand us the whole path." />
+</Layout>
+
+<style>
+  .page-title { margin-top: var(--s-sm); }
+  .lede { margin-top: var(--s-lg); font-size: 1.25rem; max-width: 52ch; }
+  .strip-holder { margin-top: var(--s-xl); }
+  .layer-grid {
+    display: grid;
+    grid-template-columns: minmax(300px, 2fr) minmax(200px, 1fr);
+    gap: var(--s-2xl);
+    align-items: start;
+  }
+  .platforms {
+    color: var(--muted);
+    font-size: 1rem;
+    border-left: 1px solid var(--hairline);
+    padding-left: var(--s-lg);
+    line-height: 2;
+  }
+  .eng-list { display: grid; gap: 0; }
+  .eng-row {
+    display: grid;
+    grid-template-columns: 180px 1fr;
+    gap: var(--s-lg);
+    padding-block: var(--s-md);
+    border-bottom: 1px solid var(--hairline);
+  }
+  .eng-name { color: var(--amber); font-size: var(--size-small); }
+  .eng-body { margin: 0; }
+  @media (max-width: 900px) {
+    .layer-grid { grid-template-columns: 1fr; gap: var(--s-lg); }
+    .platforms { border-left: 0; padding-left: 0; border-top: 1px solid var(--hairline); padding-top: var(--s-md); }
+    .eng-row { grid-template-columns: 1fr; gap: var(--s-xs); }
+  }
+</style>

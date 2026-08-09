@@ -1,0 +1,30 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { withBase } from '../../lib/site';
+---
+
+<Layout
+  title="Message logged — Hopping Mouse Automation"
+  description="Your enquiry has been received."
+  path="/contact/sent/"
+  noindex
+>
+  <section class="panel">
+    <div class="wrap">
+      <p class="mono ack-line"><span class="state-ok">■</span> MESSAGE LOGGED — {new Date().toISOString().slice(11, 16)} ACK</p>
+      <h1 class="page-title">Received.<br />We'll be in touch.</h1>
+      <p class="lede">
+        Your enquiry is in the queue — expect a reply within 1 business day.
+        If it's urgent, say so in the message and we'll prioritise it.
+      </p>
+      <p><a href={withBase('/')}>← Return to normal</a></p>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .ack-line { font-size: var(--size-small); color: var(--text); }
+  .page-title { margin-top: var(--s-md); }
+  .lede { margin-top: var(--s-lg); font-size: 1.125rem; max-width: 44ch; }
+  .direct { font-size: 1.5rem; margin-block: var(--s-lg); }
+</style>

@@ -1,0 +1,52 @@
+---
+// Timestamped HMI event table. Always labelled when data is illustrative.
+interface Row {
+  time: string;
+  tag: string;
+  priority: 'HIGH' | 'MED' | 'LOW' | 'INFO' | 'RTN';
+  message: string;
+  state: 'ACTIVE' | 'ACK' | 'CLEARED' | 'NORMAL';
+}
+interface Props {
+  caption: string;
+  rows: Row[];
+  illustrative?: boolean;
+}
+const { caption, rows, illustrative = true } = Astro.props;
+
+const stateClass = (s: Row['state']) =>
+  s === 'NORMAL' || s === 'CLEARED' ? 'state-ok' : s === 'ACK' ? 'state-ack' : 'state-alarm';
+---
+
+<figure class="alarm-log">
+  <table class="hmi stack">
+    <caption>
+      {caption}{illustrative && <span class="illus"> — ILLUSTRATIVE</span>}
+    </caption>
+    <thead>
+      <tr><th scope="col">Time</th><th scope="col">Tag</th><th scope="col">Pri</th><th scope="col">Event</th><th scope="col">State</th></tr>
+    </thead>
+    <tbody>
+      {
+        rows.map((r) => (
+          <tr>
+            <td data-th="TIME">{r.time}</td>
+            <td data-th="TAG">{r.tag}</td>
+            <td data-th="PRI" class={r.priority === 'HIGH' ? 'state-alarm' : undefined}>{r.priority}</td>
+            <td data-th="EVENT">{r.message}</td>
+            <td data-th="STATE" class={stateClass(r.state)}>{r.state}</td>
+          </tr>
+        ))
+      }
+    </tbody>
+  </table>
+</figure>
+
+<style>
+  .alarm-log {
+    border: 1px solid var(--hairline);
+    background: var(--surface);
+    padding: var(--s-lg);
+  }
+  .illus { color: var(--muted); font-size: 1em; letter-spacing: 0.06em; }
+</style>

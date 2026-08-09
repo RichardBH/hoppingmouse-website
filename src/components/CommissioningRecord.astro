@@ -1,0 +1,45 @@
+---
+// Thirty years as a document, not a biography. Engineers trust documents.
+const RECORD = [
+  { years: '1995–98', org: 'Cybernetics Industrial Automation, Cape Town', work: 'Turn-key control systems: jam plant, gypsum board, kaolin mining, nylon spinners. Siemens, Allen-Bradley, Klöckner Moeller.' },
+  { years: '1998', org: 'AMR Automations, Cape Town', work: 'Prison security SCADA — every gate and door, gate by gate. Fire detection for Koeberg nuclear power station.' },
+  { years: '2000–04', org: 'Russell Mineral Equipment · JKTech (UQ)', work: 'Mill reline simulation software; mineral liberation analysis tooling for electron microscopy.' },
+  { years: '2004–09', org: 'Personified · Ludowici', work: 'Remote condition monitoring for vibrating screens — PCB design, embedded firmware, mine-site installs for BHP, Anglo American, FMG.' },
+  { years: '2009–10', org: 'Agridry–Rimik, Toowoomba', work: 'Grain dryer controls; polymer ovens on IDEC PLCs + Citect; remote OPC data logging over the internet.' },
+  { years: '2010', org: 'Queensland Rail', work: '25/50kV traction power SCADA across Queensland — three control rooms, 200+ Kingfisher RTUs, custom DNP driver. Tunnel ventilation, 2000-camera CCTV.' },
+  { years: '2010–20', org: 'Conneq / Lendlease Services', work: 'Water & wastewater: treatment plants, sewage pump stations, radio telemetry. ClearSCADA, Citect, MultiSmart, Kingfisher, SCADAPack. Live brownfield upgrades, 24/7 callout.' },
+  { years: '2020–23', org: 'Unitywater', work: 'Principal Digital Engineer — OT governance, control system roadmap, smart water networks.' },
+  { years: '2023–25', org: 'Crystalaid · Witthoft Engineering', work: 'Defence autonomous heavy-lift drone systems (ROS2, computer vision); lead control systems engineering.' },
+  { years: '2019–now', org: 'Qualitiv Pty Ltd', work: 'SCADA & PLC delivery across food and agribusiness: nut processing, macadamia and grain drying, wood fibre refining, seed grading. Ignition, IDEC, cloud SCADA.' },
+] as const;
+---
+
+<figure class="commissioning">
+  <table class="hmi stack">
+    <caption>Commissioning record — 1995 to present</caption>
+    <thead>
+      <tr><th scope="col">Years</th><th scope="col">Organisation</th><th scope="col">Systems delivered</th></tr>
+    </thead>
+    <tbody>
+      {
+        RECORD.map((r) => (
+          <tr>
+            <td data-th="YEARS" class="years">{r.years}</td>
+            <td data-th="ORG">{r.org}</td>
+            <td data-th="WORK" class="work">{r.work}</td>
+          </tr>
+        ))
+      }
+    </tbody>
+  </table>
+</figure>
+
+<style>
+  .commissioning {
+    border: 1px solid var(--hairline);
+    background: var(--surface);
+    padding: var(--s-lg);
+  }
+  .years { color: var(--amber); white-space: nowrap; }
+  .work { font-family: var(--font-body); font-size: var(--size-small); }
+</style>

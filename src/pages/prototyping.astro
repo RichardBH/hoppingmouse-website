@@ -1,0 +1,89 @@
+---
+import Layout from '../layouts/Layout.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import Cta from '../components/Cta.astro';
+
+const capabilities = [
+  { name: 'ELECTRONICS', body: 'PCB design and bespoke instrumentation — strain gauges, high-speed counters, analog interfaces. Hardware that survives a plant, not a bench.' },
+  { name: 'FIRMWARE', body: 'Embedded microprocessor design and programming for measurement and control devices, including remote connectivity through industrial networks and firewalls.' },
+  { name: 'SOFTWARE', body: 'Real-time software, desktop tooling and web applications around the hardware — the full product, not just the board.' },
+  { name: 'AI & VISION', body: 'Computer vision and machine learning applied to physical processes — grading, inspection, counting, autonomy. Proven on projects from seed grading to airborne systems.' },
+] as const;
+
+const proof = [
+  { years: 'IN USE 25+ YRS', item: 'Lustre Meter and Draw Tension Instrument built for a fibre manufacturer — both still in service today.' },
+  { years: 'PRODUCTISED', item: 'Remote condition monitoring system for mining vibrating screens — PCB up to secure remote data, deployed on blue-chip sites.' },
+  { years: 'DEFENCE', item: 'Autonomous heavy-lift drone logistics programme — systems engineering, computer vision, ROS2.' },
+] as const;
+---
+
+<Layout
+  title="Prototyping — electronics, firmware & AI prototypes | Hopping Mouse Automation"
+  description="Electronic and software prototyping: PCB design, embedded firmware, software and applied AI. A proof-of-validation prototype in weeks, not years — so you can bin the idea or back it."
+  path="/prototyping/"
+>
+  <section class="panel">
+    <div class="wrap">
+      <span class="kicker">PROTOTYPING</span>
+      <h1 class="page-title">A working prototype<br />in weeks, not years</h1>
+      <p class="lede">
+        Ideas die in committees and slide decks. We build the
+        proof-of-validation prototype — electronics, firmware, software, AI —
+        so you can test the idea against reality, then bin it or back it with
+        evidence.
+      </p>
+    </div>
+  </section>
+
+  <section class="panel">
+    <div class="wrap">
+      <SectionHeading kicker="CAPABILITY" title="What we build" />
+      <dl class="cap-list">
+        {
+          capabilities.map((c) => (
+            <div class="cap-row">
+              <dt class="mono cap-name">{c.name}</dt>
+              <dd class="cap-body">{c.body}</dd>
+            </div>
+          ))
+        }
+      </dl>
+    </div>
+  </section>
+
+  <section class="panel">
+    <div class="wrap">
+      <SectionHeading kicker="TRACK RECORD" title="Prototypes that became products" />
+      <dl class="cap-list">
+        {
+          proof.map((p) => (
+            <div class="cap-row">
+              <dt class="mono cap-name">{p.years}</dt>
+              <dd class="cap-body">{p.item}</dd>
+            </div>
+          ))
+        }
+      </dl>
+    </div>
+  </section>
+
+  <Cta line="Got an idea that needs to meet reality?" button="Test the idea" />
+</Layout>
+
+<style>
+  .page-title { margin-top: var(--s-sm); }
+  .lede { margin-top: var(--s-lg); font-size: 1.25rem; max-width: 52ch; }
+  .cap-list { display: grid; gap: 0; }
+  .cap-row {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    gap: var(--s-lg);
+    padding-block: var(--s-md);
+    border-bottom: 1px solid var(--hairline);
+  }
+  .cap-name { color: var(--amber); font-size: var(--size-small); }
+  .cap-body { margin: 0; max-width: 68ch; }
+  @media (max-width: 900px) {
+    .cap-row { grid-template-columns: 1fr; gap: var(--s-xs); }
+  }
+</style>
